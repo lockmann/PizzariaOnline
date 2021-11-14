@@ -1,9 +1,13 @@
+let modalQt = 1;
+
 const s = (el)=> document.querySelector(el);
 const sa = (el)=> document.querySelectorAll(el);
 
 
 pizzaJson.map((pizza, index)=>{
 	let pizzaItem = s('.models .pizza-item').cloneNode(true);
+
+	pizzaItem.setAttribute('data-key', index);
 	pizzaItem.querySelector('.pizza-item--img img').src = pizza.img;
 	pizzaItem.querySelector('.pizza-item--name').innerHTML = pizza.name;
 	pizzaItem.querySelector('.pizza-item--desc').innerHTML = pizza.description;
@@ -13,7 +17,22 @@ pizzaJson.map((pizza, index)=>{
 	pizzaItem.querySelector('a').addEventListener('click', (e)=>{
 		//desabilita a função padrão do envento, no caso ao clicar ele não atualiza a tela. 
 		e.preventDefault();
+		let key = e.target.closest('.pizza-item').getAttribute('data-key');
+		Let modalQt = 1;
 
+		s('.pizzaBig img').src = pizzaJson[key].img;
+		s('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
+		s('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
+		s('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
+		s('.pizzaInfo--size.selected').classList.remove('selected');
+		sa('.pizzaInfo--size').forEach((size, sizeIndex)=>{
+			if(sizeIndex == 2){
+				size.classList.add('selected');
+			}
+			size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
+		});
+
+		s('.pizzaInfo--qt').innerHTML = modalQt;
 
 		s('.pizzaWindowArea').style.opacity = 0;
 		s('.pizzaWindowArea').style.display = 'flex';
