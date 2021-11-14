@@ -18,8 +18,7 @@ pizzaJson.map((pizza, index)=>{
 		//desabilita a função padrão do envento, no caso ao clicar ele não atualiza a tela. 
 		e.preventDefault();
 		let key = e.target.closest('.pizza-item').getAttribute('data-key');
-		Let modalQt = 1;
-
+		modalQt = 1;
 		s('.pizzaBig img').src = pizzaJson[key].img;
 		s('.pizzaInfo h1').innerHTML = pizzaJson[key].name;
 		s('.pizzaInfo--desc').innerHTML = pizzaJson[key].description;
@@ -43,4 +42,34 @@ pizzaJson.map((pizza, index)=>{
 	})
 
 	s('.pizza-area').append(pizzaItem);
+});
+
+function closeModal (){
+	s('.pizzaWindowArea').style.opacity = 0;
+	setTimeout(()=>{
+		s('.pizzaWindowArea').style.display = 'none';
+	}, 200)
+}
+
+sa('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=>{
+	item.addEventListener('click', closeModal);
+})
+
+s('.pizzaInfo--qtmenos').addEventListener('click', ()=>{
+	if(modalQt > 1 ){
+		modalQt--;
+		s('.pizzaInfo--qt').innerHTML = modalQt;
+	}
+})
+
+s('.pizzaInfo--qtmais').addEventListener('click', ()=>{
+	modalQt++;
+	s('.pizzaInfo--qt').innerHTML = modalQt;
+})
+
+sa('.pizzaInfo--size').forEach((size, sizeIndex)=>{
+	size.addEventListener('click', (e)=>{
+		s('.pizzaInfo--size.selected').classList.remove('selected');
+		size.classList.add('selected');
+	})
 });
